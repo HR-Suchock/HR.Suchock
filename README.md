@@ -1,2 +1,84 @@
 # HR.Suchock
 Humayun Rashid
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Suchock - My Portfolio</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: #f0f2f5;
+    }
+    header {
+      background-color: #2c3e50;
+      color: white;
+      padding: 40px 0;
+      text-align: center;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 36px;
+    }
+    section {
+      max-width: 800px;
+      margin: 40px auto;
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    h2 {
+      color: #2980b9;
+      margin-bottom: 15px;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+    ul li {
+      margin-bottom: 10px;
+    }
+    .footer {
+      text-align: center;
+      padding: 20px;
+      color: #777;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Humayun Rashid Suchock</h1>
+    <p>Beginner Web Developer & Future Freelancer</p>
+  </header>
+
+  <section>
+    <h2>About Me</h2>
+    <p>Hi, I'm Suchock. I recently gave my HSC exam (2025) from Dr. Mahbubur Rahman Molla College. I'm learning HTML, CSS, C programming, and Canva to build my freelancing career.</p>
+  </section>
+
+  <section>
+    <h2>Skills</h2>
+    <ul>
+      <li>HTML (Beginner)</li>
+      <li>CSS (Learning)</li>
+      <li>C Programming (Basic)</li>
+      <li>Canva Design (Learning)</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Contact</h2>
+    <p>Email: suchock@example.com</p>
+    <p>Facebook: fb.com/suchock</p>
+  </section>
+
+  <div class="footer">
+    Made with ❤️ by Suchock | Helped by Nusrat Jahan Tanisha
+  </div>
+
+</body>
+</html>
