@@ -1,55 +1,104 @@
-# HR.Suchock
-Humayun Rashid
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <title>Suchock - My Portfolio</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    body {
+    * {
       margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background: #f0f2f5;
+      padding: 0;
+      box-sizing: border-box;
     }
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(120deg, #f0f2f5, #dff9fb);
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from {opacity: 0;}
+      to {opacity: 1;}
+    }
+
     header {
       background-color: #2c3e50;
       color: white;
-      padding: 40px 0;
+      padding: 40px 20px;
       text-align: center;
     }
-    header h1 {
-      margin: 0;
-      font-size: 36px;
+
+    header img {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      border: 4px solid white;
+      margin-bottom: 15px;
+      transition: transform 0.3s;
     }
+
+    header img:hover {
+      transform: scale(1.1);
+    }
+
     section {
       max-width: 800px;
-      margin: 40px auto;
+      margin: 30px auto;
       background: white;
       padding: 30px;
-      border-radius: 10px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      border-radius: 15px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+      animation: slideUp 1s ease-out;
     }
+
+    @keyframes slideUp {
+      from { transform: translateY(40px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
     h2 {
       color: #2980b9;
       margin-bottom: 15px;
     }
+
     ul {
-      list-style: none;
-      padding: 0;
+      list-style: square;
+      padding-left: 20px;
+      line-height: 1.8;
     }
-    ul li {
-      margin-bottom: 10px;
+
+    a {
+      color: #2980b9;
+      text-decoration: none;
     }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
     .footer {
       text-align: center;
       padding: 20px;
-      color: #777;
+      color: #555;
       font-size: 14px;
+    }
+
+    @media (max-width: 600px) {
+      header img {
+        width: 100px;
+        height: 100px;
+      }
+      section {
+        margin: 20px;
+        padding: 20px;
+      }
     }
   </style>
 </head>
 <body>
 
   <header>
+    <img src="https://i.ibb.co/nNWsXKVJ/IMG-20230704-WA0013.jpg" alt="Suchock Photo">
     <h1>Humayun Rashid Suchock</h1>
     <p>Beginner Web Developer & Future Freelancer</p>
   </header>
@@ -72,7 +121,12 @@ Humayun Rashid
   <section>
     <h2>Contact</h2>
     <p>Email: suchock@example.com</p>
-    <p>Facebook: fb.com/suchock</p>
+    <p>
+      Facebook:
+      <a href="https://www.facebook.com/hr.suchock" target="_blank">
+        Visit My Profile
+      </a>
+    </p>
   </section>
 
   <div class="footer">
