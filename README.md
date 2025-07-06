@@ -120,7 +120,8 @@
 
   <section>
     <h2>Contact</h2>
-    <p>Email: suchock@example.com</p>
+   <p>Email 1: <a href="mailto:suchock849@gmail.com">suchock849@gmail.com</a></p>
+  <p>Email 2: <a href="mailto:humayunrashid597@gmail.com">humayunrashid597@gmail.com</a></p>
     <p>
       Facebook:
       <a href="https://www.facebook.com/hr.suchock" target="_blank">
