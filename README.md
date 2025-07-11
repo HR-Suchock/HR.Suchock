@@ -3,38 +3,27 @@ Humayun Rashid
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Suchock - Portfolio</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <!-- Google Font -->
+  <title>Humayun Rashid Suchock - Portfolio</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
+    * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       font-family: 'Poppins', sans-serif;
       background: linear-gradient(135deg, #e0eafc, #cfdef3);
       color: #2c3e50;
       animation: fadeIn 1s ease-in-out;
     }
-
     @keyframes fadeIn {
       from {opacity: 0;}
       to {opacity: 1;}
     }
-
     header {
       text-align: center;
       padding: 50px 20px 30px;
       background: #2c3e50;
       color: white;
     }
-
     header img {
       width: 140px;
       height: 140px;
@@ -45,21 +34,9 @@ Humayun Rashid
       margin-bottom: 15px;
       transition: transform 0.3s ease;
     }
-
-    header img:hover {
-      transform: scale(1.1);
-    }
-
-    header h1 {
-      font-size: 32px;
-      margin: 10px 0 5px;
-    }
-
-    header p {
-      font-size: 16px;
-      color: #ecf0f1;
-    }
-
+    header img:hover { transform: scale(1.1); }
+    header h1 { font-size: 32px; margin: 10px 0 5px; }
+    header p { font-size: 16px; color: #ecf0f1; }
     section {
       max-width: 900px;
       margin: 30px auto;
@@ -69,42 +46,30 @@ Humayun Rashid
       box-shadow: 0 8px 20px rgba(0,0,0,0.1);
       transition: transform 0.3s;
     }
-
-    section:hover {
-      transform: translateY(-5px);
-    }
-
+    section:hover { transform: translateY(-5px); }
     h2 {
       color: #2980b9;
       margin-bottom: 15px;
     }
-
     ul {
       list-style: none;
       padding-left: 0;
     }
-
     ul li::before {
       content: "✔️";
       margin-right: 10px;
       color: green;
     }
-
     ul li {
       margin-bottom: 10px;
       font-size: 16px;
     }
-
     a {
       color: #2980b9;
       text-decoration: none;
       font-weight: 500;
     }
-
-    a:hover {
-      text-decoration: underline;
-    }
-
+    a:hover { text-decoration: underline; }
     .footer {
       text-align: center;
       padding: 20px;
@@ -112,16 +77,21 @@ Humayun Rashid
       color: #555;
       margin-top: 30px;
     }
-
-    /* Responsive Design */
+    .button {
+      display: inline-block;
+      padding: 10px 20px;
+      background-color: #2980b9;
+      color: white;
+      border-radius: 6px;
+      margin-top: 15px;
+      transition: 0.3s ease;
+    }
+    .button:hover {
+      background-color: #1c5980;
+    }
     @media (max-width: 600px) {
-      header h1 {
-        font-size: 24px;
-      }
-      section {
-        margin: 20px;
-        padding: 20px;
-      }
+      header h1 { font-size: 24px; }
+      section { margin: 20px; padding: 20px; }
     }
   </style>
 </head>
@@ -153,6 +123,7 @@ Humayun Rashid
     <p>Email 1: <a href="mailto:suchock849@gmail.com">suchock849@gmail.com</a></p>
     <p>Email 2: <a href="mailto:humayunrashid597@gmail.com">humayunrashid597@gmail.com</a></p>
     <p>Facebook: <a href="https://www.facebook.com/hr.suchock" target="_blank">Visit My Profile</a></p>
+    <a class="button" href="fun.html" target="_blank">🎮 Visit Fun Zone</a>
   </section>
 
   <div class="footer">
