@@ -1,485 +1,242 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>🎮 Fun Zone + ❤️ Love Calculator</title>
-<style>
-  /* Reset & base */
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #e0f7fa, #fce4ec);
-    min-height: 100vh;
-    padding: 30px 15px 50px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    position: relative;
-  }
-  h1 {
-    font-size: 2.8rem;
-    margin-bottom: 35px;
-    color: #2c3e50;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
-    text-align: center;
-  }
-  .game, .container, .admin-section {
-    background: #fff;
-    padding: 25px 20px 30px;
-    margin: 20px 0;
-    border-radius: 15px;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 420px;
-    text-align: center;
-  }
-  h2 {
-    margin-bottom: 15px;
-    color: #e91e63;
-    font-weight: 700;
-    font-size: 1.6rem;
-  }
-  p {
-    font-size: 16px;
-    margin-bottom: 12px;
-    color: #333;
-    line-height: 1.3;
-  }
-  input[type='number'],
-  input[type='text'] {
-    padding: 10px;
-    font-size: 16px;
-    border: 2px solid #ccc;
-    border-radius: 8px;
-    width: 80%;
-    max-width: 300px;
-    margin-bottom: 15px;
-    transition: border-color 0.3s ease;
-  }
-  input[type='number']:focus,
-  input[type='text']:focus {
-    border-color: #e91e63;
-    outline: none;
-  }
-  button {
-    padding: 10px 28px;
-    font-size: 16px;
-    background-color: #4caf50;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background 0.3s ease;
-    margin: 5px 10px 0 10px;
-    min-width: 110px;
-    user-select: none;
-  }
-  button:hover,
-  button:focus {
-    background-color: #388e3c;
-    outline: none;
-  }
-  button:disabled {
-    background-color: #9e9e9e;
-    cursor: default;
-  }
-  #result,
-  #diceResult,
-  #typingResult,
-  #loveResult {
-    font-weight: 600;
-    font-size: 18px;
-    min-height: 24px;
-    margin-top: 10px;
-    user-select: none;
-    color: #4a148c;
-  }
-  .admin-section {
-    background: #fce4ec;
-    padding: 20px 25px;
-    max-width: 420px;
-  }
-  .admin-section h2 {
-    margin-bottom: 15px;
-    color: #880e4f;
-    font-size: 1.3rem;
-  }
-  ul {
-    max-height: 150px;
-    overflow-y: auto;
-    padding-left: 20px;
-    text-align: left;
-  }
-  ul li {
-    margin-bottom: 6px;
-    font-weight: 500;
-  }
-
-  /* 3-dot menu styles */
-  #menuBtn {
-    position: fixed;
-    top: 15px;
-    right: 15px;
-    width: 32px;
-    height: 32px;
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    user-select: none;
-    z-index: 1000;
-  }
-  #menuBtn span {
-    display: block;
-    width: 6px;
-    height: 6px;
-    background-color: #333;
-    border-radius: 50%;
-    margin: 4px auto;
-  }
-  #menuDropdown {
-    position: fixed;
-    top: 52px;
-    right: 15px;
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-    display: none;
-    min-width: 140px;
-    z-index: 1000;
-  }
-  #menuDropdown button {
-    width: 100%;
-    background: transparent;
-    color: #333;
-    border: none;
-    padding: 10px 15px;
-    text-align: left;
-    border-radius: 8px 8px 0 0;
-    font-weight: 600;
-  }
-  #menuDropdown button:hover,
-  #menuDropdown button:focus {
-    background-color: #fce4ec;
-    outline: none;
-  }
-  #menuDropdown button:last-child {
-    border-radius: 0 0 8px 8px;
-  }
-
-  /* Responsive */
-  @media (max-width: 480px) {
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>❤️ Love Calculator + Fun Games</title>
+  <style>
     body {
-      padding: 20px 10px 40px;
-    }
-    .game, .container, .admin-section {
-      max-width: 100%;
-      padding: 20px 15px 25px;
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #e0f7fa, #fce4ec);
+      padding: 20px;
+      text-align: center;
     }
     h1 {
       font-size: 2rem;
+      color: #2c3e50;
     }
-    h2 {
-      font-size: 1.3rem;
+    .menu {
+      position: fixed;
+      top: 10px;
+      right: 20px;
+      cursor: pointer;
+      font-size: 28px;
+      font-weight: bold;
+      z-index: 1000;
+      background: #fff;
+      padding: 6px 12px;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+      user-select: none;
     }
-    input[type='number'],
-    input[type='text'] {
+    .dropdown {
+      position: fixed;
+      top: 50px;
+      right: 20px;
+      background: white;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      display: none;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      overflow: hidden;
+      z-index: 999;
+    }
+    .dropdown button {
+      display: block;
       width: 100%;
-      max-width: 100%;
+      padding: 10px 16px;
+      border: none;
+      background: none;
+      text-align: left;
+      font-size: 16px;
+      cursor: pointer;
+      color: black;
+    }
+    .dropdown button:hover {
+      background-color: #f0f0f0;
+    }
+    .section {
+      background: #fff;
+      padding: 20px;
+      margin: 20px auto;
+      max-width: 400px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    input {
+      padding: 10px;
+      width: 80%;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 8px;
     }
     button {
-      width: 100%;
-      margin: 8px 0 0 0;
-      min-width: unset;
+      padding: 10px 20px;
+      border: none;
+      background: #4caf50;
+      color: white;
+      border-radius: 8px;
+      cursor: pointer;
     }
-  }
-</style>
+    #adminPanel {
+      display: none;
+    }
+    ul {
+      text-align: left;
+      max-height: 150px;
+      overflow-y: auto;
+      margin-top: 10px;
+    }
+    li {
+      margin: 5px 0;
+    }
+  </style>
 </head>
 <body>
 
-  <!-- 3-dot menu -->
-  <button id="menuBtn" aria-label="Menu" aria-haspopup="true" aria-expanded="false" title="Menu">
-    <span></span><span></span><span></span>
-  </button>
-  <div id="menuDropdown" role="menu" aria-hidden="true">
-    <button id="homePageBtn" role="menuitem">🏠 Home Page</button>
-    <button id="adminPanelBtn" role="menuitem">👀 Admin Panel</button>
+  <div class="menu" id="menuBtn">⋮</div>
+  <div class="dropdown" id="menuDropdown">
+    <button onclick="showSection('main')">🏠 Home</button>
+    <button onclick="adminLogin()">🔐 Admin Panel</button>
   </div>
 
-  <h1>🎮 Fun Zone + ❤️ Love Calculator</h1>
+  <h1>🚀 Fun Zone + ❤️ Love Calculator</h1>
 
-  <div id="mainContent">
-    <!-- Number Guessing Game -->
-    <div class="game" id="guessingGame">
-      <h2>Number Guessing Game</h2>
-      <p>Guess a number between 1 and 100</p>
-      <input type="number" id="guessInput" min="1" max="100" placeholder="Enter your guess" />
-      <br />
-      <button id="submitGuessBtn">Submit</button>
-      <button id="resetGuessBtn" style="background-color: #e91e63; margin-left: 10px;">Reset</button>
-      <p id="result"></p>
+  <div id="mainSection">
+    <div class="section">
+      <h2>🎢 Number Guessing</h2>
+      <input type="number" id="guessInput" placeholder="Enter number 1-100" />
+      <button onclick="checkGuess()">Guess</button>
+      <p id="guessResult"></p>
     </div>
 
-    <!-- Dice Roller Game -->
-    <div class="game" id="diceGame">
+    <div class="section">
       <h2>🎲 Dice Roller</h2>
-      <p>Click the button to roll two dice!</p>
-      <button id="rollDiceBtn">Roll Dice</button>
+      <button onclick="rollDice()">Roll</button>
       <p id="diceResult"></p>
     </div>
 
-    <!-- Typing Speed Game -->
-    <div class="game" id="typingGame">
-      <h2>⌨️ Typing Speed Test</h2>
-      <p id="typingText">Type this sentence as fast as you can!</p>
-      <input type="text" id="typingInput" placeholder="Start typing..." autocomplete="off" />
-      <br />
-      <button id="resetTypingBtn" style="background-color: #e91e63;">Reset</button>
+    <div class="section">
+      <h2>⌨️ Typing Speed</h2>
+      <p id="typingText">The quick brown fox jumps over the lazy dog.</p>
+      <input type="text" id="typingInput" placeholder="Start typing..." />
       <p id="typingResult"></p>
     </div>
 
-    <!-- Love Percentage Calculator -->
-    <div class="container" id="loveCalc">
-      <h2>❤️ Love Percentage Calculator</h2>
-      <input type="text" id="yourName" placeholder="Your Name" autocomplete="off" />
-      <input type="text" id="crushName" placeholder="Your Crush's Name" autocomplete="off" />
-      <button id="calculateBtn">Calculate Love %</button>
-      <div id="loveResult"></div>
+    <div class="section">
+      <h2>❤️ Love Calculator</h2>
+      <input type="text" id="yourName" placeholder="Your Name" />
+      <input type="text" id="crushName" placeholder="Crush Name" />
+      <button onclick="calculateLove()">Calculate</button>
+      <p id="loveResult"></p>
     </div>
   </div>
 
-  <!-- Admin Panel -->
-  <div class="admin-section" id="admin-section" style="display:none;">
-    <h2>👀 Admin Panel - Crush Pairs Entered</h2>
+  <div id="adminPanel" class="section">
+    <h2>📋 Crush List</h2>
     <ul id="crushList"></ul>
   </div>
 
-<script>
-  // 3-dot menu toggle
-  const menuBtn = document.getElementById('menuBtn');
-  const menuDropdown = document.getElementById('menuDropdown');
-  let menuOpen = false;
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyBP3uZufO6jFPd10E8Z5WSZaK7i1GzNLpQ",
+      authDomain: "crush-love-calculator-aa4f9.firebaseapp.com",
+      databaseURL: "https://crush-love-calculator-aa4f9-default-rtdb.firebaseio.com",
+      projectId: "crush-love-calculator-aa4f9",
+      storageBucket: "crush-love-calculator-aa4f9.appspot.com",
+      messagingSenderId: "901702400426",
+      appId: "1:901702400426:web:322a6f28cb4f9734eed3d3",
+      measurementId: "G-LKQMN1BFY9"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
 
-  function toggleMenu() {
-    menuOpen = !menuOpen;
-    menuDropdown.style.display = menuOpen ? 'block' : 'none';
-    menuBtn.setAttribute('aria-expanded', menuOpen);
-    menuDropdown.setAttribute('aria-hidden', !menuOpen);
-  }
-
-  menuBtn.addEventListener('click', toggleMenu);
-
-  // Close menu if clicking outside
-  document.addEventListener('click', (e) => {
-    if (!menuBtn.contains(e.target) && !menuDropdown.contains(e.target)) {
-      menuOpen = false;
-      menuDropdown.style.display = 'none';
-      menuBtn.setAttribute('aria-expanded', false);
-      menuDropdown.setAttribute('aria-hidden', true);
-    }
-  });
-
-  // Page toggle buttons
-  const homePageBtn = document.getElementById('homePageBtn');
-  const adminPanelBtn = document.getElementById('adminPanelBtn');
-  const mainContent = document.getElementById('mainContent');
-  const adminSection = document.getElementById('admin-section');
-
-  function showHome() {
-    mainContent.style.display = 'block';
-    adminSection.style.display = 'none';
-    toggleMenu();
-  }
-  function showAdmin() {
-    const password = prompt("Enter admin password to view crush pairs:");
-    if (password === "09908427T") {
-      adminSection.style.display = 'block';
-      mainContent.style.display = 'none';
-      displayCrushPairs();
-    } else {
-      alert("❌ Wrong password! Admin panel hidden.");
-      adminSection.style.display = 'none';
-      mainContent.style.display = 'block';
-    }
-    toggleMenu();
-  }
-
-  homePageBtn.addEventListener('click', showHome);
-  adminPanelBtn.addEventListener('click', showAdmin);
-
-  // -------- Number Guessing Game --------
-  (function () {
-    let secretNumber = Math.floor(Math.random() * 100) + 1;
-    const guessInput = document.getElementById("guessInput");
-    const result = document.getElementById("result");
-    const submitBtn = document.getElementById("submitGuessBtn");
-    const resetBtn = document.getElementById("resetGuessBtn");
-
-    function resetGame() {
-      secretNumber = Math.floor(Math.random() * 100) + 1;
-      guessInput.value = "";
-      result.textContent = "";
-      guessInput.disabled = false;
-      submitBtn.disabled = false;
-    }
-
-    function checkGuess() {
-      const guess = parseInt(guessInput.value);
-      if (isNaN(guess) || guess < 1 || guess > 100) {
-        result.textContent = "❌ Please enter a number between 1 and 100.";
-        result.style.color = "red";
-        return;
+    const menuBtn = document.getElementById("menuBtn");
+    const dropdown = document.getElementById("menuDropdown");
+    menuBtn.addEventListener("click", () => {
+      dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+    });
+    document.addEventListener("click", function (e) {
+      if (!menuBtn.contains(e.target) && !dropdown.contains(e.target)) {
+        dropdown.style.display = "none";
       }
-      if (guess === secretNumber) {
-        result.textContent = "🎉 Correct! You guessed it right.";
-        result.style.color = "green";
-        guessInput.disabled = true;
-        submitBtn.disabled = true;
-      } else if (guess < secretNumber) {
-        result.textContent = "⬆️ Too low. Try again!";
-        result.style.color = "orange";
-      } else {
-        result.textContent = "⬇️ Too high. Try again!";
-        result.style.color = "orange";
-      }
-    }
-
-    submitBtn.addEventListener("click", checkGuess);
-    resetBtn.addEventListener("click", resetGame);
-    guessInput.addEventListener("keypress", function (e) {
-      if (e.key === "Enter") checkGuess();
     });
 
-    resetGame();
-  })();
+    function showSection(section) {
+      document.getElementById("mainSection").style.display = section === "main" ? "block" : "none";
+      document.getElementById("adminPanel").style.display = section === "admin" ? "block" : "none";
+      dropdown.style.display = "none";
+    }
 
-  // -------- Dice Roller Game --------
-  (function () {
-    const rollBtn = document.getElementById("rollDiceBtn");
-    const diceResult = document.getElementById("diceResult");
+    function adminLogin() {
+      const pass = prompt("Enter admin password:");
+      if (pass === "09908427T") {
+        showSection("admin");
+        loadCrushes();
+      } else {
+        alert("Wrong password!");
+      }
+    }
+
+    function saveCrush(name1, name2) {
+      const id = db.ref().child("crushPairs").push().key;
+      db.ref("crushPairs/" + id).set({ person: name1, crush: name2 });
+    }
+
+    function loadCrushes() {
+      db.ref("crushPairs").once("value").then(snapshot => {
+        const data = snapshot.val();
+        const list = document.getElementById("crushList");
+        list.innerHTML = "";
+        if (!data) return list.innerHTML = "<li>No crushes found.</li>";
+        Object.values(data).forEach((entry, i) => {
+          list.innerHTML += `<li>${i + 1}. ${entry.person} ❤️ ${entry.crush}</li>`;
+        });
+      });
+    }
+
+    function calculateLove() {
+      const n1 = document.getElementById("yourName").value.trim();
+      const n2 = document.getElementById("crushName").value.trim();
+      const res = document.getElementById("loveResult");
+      if (!n1 || !n2) return res.textContent = "Please enter both names!";
+      const percent = (n1.length * 3 + n2.length * 5 + n1.charCodeAt(0)) % 101;
+      res.textContent = `Love between ${n1} & ${n2}: ${percent}%`;
+      saveCrush(n1, n2);
+    }
+
+    let secret = Math.floor(Math.random() * 100) + 1;
+    function checkGuess() {
+      const val = parseInt(document.getElementById("guessInput").value);
+      const result = document.getElementById("guessResult");
+      if (val === secret) result.textContent = "🎉 Correct!";
+      else if (val < secret) result.textContent = "⬆️ Too low!";
+      else result.textContent = "⬇️ Too high!";
+    }
 
     function rollDice() {
-      const die1 = Math.floor(Math.random() * 6) + 1;
-      const die2 = Math.floor(Math.random() * 6) + 1;
-      const total = die1 + die2;
-      diceResult.textContent = `🎲 You rolled ${die1} and ${die2} (Total: ${total})`;
+      const d1 = Math.floor(Math.random() * 6) + 1;
+      const d2 = Math.floor(Math.random() * 6) + 1;
+      document.getElementById("diceResult").textContent = `You rolled ${d1} + ${d2} = ${d1 + d2}`;
     }
 
-    rollBtn.addEventListener("click", rollDice);
-  })();
-
-  // -------- Typing Speed Game --------
-  (function () {
-    const sampleText = "The quick brown fox jumps over the lazy dog.";
+    const typingText = document.getElementById("typingText").textContent;
     const typingInput = document.getElementById("typingInput");
-    const typingText = document.getElementById("typingText");
     const typingResult = document.getElementById("typingResult");
-    const resetTypingBtn = document.getElementById("resetTypingBtn");
-    let startTime = null;
-    let finished = false;
-
-    function resetTyping() {
-      typingInput.value = "";
-      typingResult.textContent = "";
-      typingText.textContent = sampleText;
-      startTime = null;
-      finished = false;
-      typingInput.disabled = false;
-      typingInput.focus();
-    }
-
-    typingInput.addEventListener("focus", function () {
-      if (!startTime) {
-        startTime = new Date();
-      }
+    let start = null;
+    typingInput.addEventListener("focus", () => {
+      if (!start) start = new Date();
     });
-
-    typingInput.addEventListener("input", function () {
-      if (finished) return;
-      const typed = typingInput.value;
-      if (typed === sampleText) {
-        const endTime = new Date();
-        const timeTaken = ((endTime - startTime) / 1000).toFixed(2);
-        typingResult.textContent = `✅ Completed in ${timeTaken} seconds!`;
-        finished = true;
+    typingInput.addEventListener("input", () => {
+      if (typingInput.value === typingText) {
+        const time = ((new Date() - start) / 1000).toFixed(2);
+        typingResult.textContent = `Done in ${time}s`;
         typingInput.disabled = true;
       }
     });
-
-    resetTypingBtn.addEventListener("click", resetTyping);
-
-    resetTyping();
-  })();
-
-  // -------- Love Percentage Calculator + Admin --------
-  const calculateBtn = document.getElementById('calculateBtn');
-  const loveResult = document.getElementById('loveResult');
-  const yourNameInput = document.getElementById('yourName');
-  const crushNameInput = document.getElementById('crushName');
-  const crushListUl = document.getElementById('crushList');
-
-  // LocalStorage crush pairs list load/save
-  function loadCrushPairs() {
-    const saved = localStorage.getItem('crushPairs');
-    if (saved) return JSON.parse(saved);
-    return [];
-  }
-  function saveCrushPairs(list) {
-    localStorage.setItem('crushPairs', JSON.stringify(list));
-  }
-  // Show crush pairs list in admin panel
-  function displayCrushPairs() {
-    const list = loadCrushPairs();
-    crushListUl.innerHTML = '';
-    if (list.length === 0) {
-      crushListUl.innerHTML = '<li>No crush pairs entered yet.</li>';
-      return;
-    }
-    list.forEach((pair, i) => {
-      crushListUl.innerHTML += `<li>${i + 1}. ${pair.person} ❤️ ${pair.crush}</li>`;
-    });
-  }
-
-  // Simple love % calculation based on char codes
-  function calculateLovePercent(name1, name2) {
-    if (!name1 || !name2) return 0;
-    const sum1 = [...name1.toLowerCase()].reduce((a, c) => a + c.charCodeAt(0), 0);
-    const sum2 = [...name2.toLowerCase()].reduce((a, c) => a + c.charCodeAt(0), 0);
-    let percent = (sum1 + sum2) % 101;
-    if (percent < 30) percent += 30; // Minimum 30%
-    return percent;
-  }
-
-  calculateBtn.addEventListener('click', () => {
-    const yourName = yourNameInput.value.trim();
-    const crushName = crushNameInput.value.trim();
-
-    if (!yourName || !crushName) {
-      loveResult.textContent = '❌ Please enter both names.';
-      loveResult.style.color = 'red';
-      return;
-    }
-
-    const lovePercent = calculateLovePercent(yourName, crushName);
-    loveResult.textContent = `❤️ Love Percentage between ${yourName} & ${crushName} is ${lovePercent}%`;
-    loveResult.style.color = '#880e4f';
-
-    let crushPairs = loadCrushPairs();
-    // Check if this pair already saved (case-insensitive)
-    const exists = crushPairs.some(
-      p => p.person.toLowerCase() === yourName.toLowerCase() &&
-           p.crush.toLowerCase() === crushName.toLowerCase()
-    );
-    if (!exists) {
-      crushPairs.push({ person: yourName, crush: crushName });
-      saveCrushPairs(crushPairs);
-      displayCrushPairs();
-    }
-  });
-</script>
+  </script>
 </body>
 </html>
