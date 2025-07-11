@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>❤️ Love Calculator + Fun Games</title>
+  <title>Fun Games</title>
   <style>
     body {
       margin: 0;
@@ -78,6 +78,7 @@
       color: white;
       border-radius: 8px;
       cursor: pointer;
+      margin-top: 10px;
     }
     #adminPanel {
       display: none;
@@ -135,6 +136,11 @@
 </head>
 <body>
 
+  <!-- Audio Effects -->
+  <audio id="clickSound" src="https://assets.mixkit.co/sfx/preview/mixkit-click-melodic-tone-1129.mp3"></audio>
+  <audio id="successSound" src="https://assets.mixkit.co/sfx/preview/mixkit-game-level-completed-2059.mp3"></audio>
+  <audio id="typingSound" src="https://assets.mixkit.co/sfx/preview/mixkit-positive-interface-beep-221.mp3"></audio>
+
   <a class="back-home" href="index.html">🏠 Home</a>
 
   <div class="menu" id="menuBtn">⋮</div>
@@ -142,7 +148,7 @@
     <button onclick="adminLogin()">🔐 Admin Panel</button>
   </div>
 
-  <h1>🚀 Fun Zone + ❤️ Love Calculator</h1>
+  <h1> 🎮 Fun Zone </h1>
 
   <div id="mainSection">
     <div class="section">
@@ -150,12 +156,14 @@
       <input type="number" id="guessInput" placeholder="Enter number 1-100" />
       <button onclick="checkGuess()">Guess</button>
       <p id="guessResult"></p>
+      <button onclick="resetGuess()">Try Again</button>
     </div>
 
     <div class="section">
       <h2>🎲 Dice Roller</h2>
       <button onclick="rollDice()">Roll</button>
       <p id="diceResult"></p>
+      <button onclick="resetDice()">Try Again</button>
     </div>
 
     <div class="section">
@@ -163,6 +171,7 @@
       <p id="typingText">The quick brown fox jumps over the lazy dog.</p>
       <input type="text" id="typingInput" placeholder="Start typing..." />
       <p id="typingResult"></p>
+      <button onclick="resetTyping()">Try Again</button>
     </div>
 
     <div class="section">
@@ -171,6 +180,7 @@
       <input type="text" id="crushName" placeholder="Crush Name" />
       <button onclick="calculateLove()">Calculate</button>
       <p id="loveResult"></p>
+      <button onclick="resetLove()">Try Again</button>
     </div>
   </div>
 
@@ -191,11 +201,18 @@
       projectId: "crush-love-calculator-aa4f9",
       storageBucket: "crush-love-calculator-aa4f9.appspot.com",
       messagingSenderId: "901702400426",
-      appId: "1:901702400426:web:322a6f28cb4f9734eed3d3",
-      measurementId: "G-LKQMN1BFY9"
+      appId: "1:901702400426:web:322a6f28cb4f9734eed3d3"
     };
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
+
+    function playSound(id) {
+      const audio = document.getElementById(id);
+      if (audio) {
+        audio.currentTime = 0;
+        audio.play();
+      }
+    }
 
     const menuBtn = document.getElementById("menuBtn");
     const dropdown = document.getElementById("menuDropdown");
@@ -212,8 +229,7 @@
       document.getElementById("mainSection").style.display = section === "main" ? "block" : "none";
       document.getElementById("adminPanel").style.display = section === "admin" ? "block" : "none";
       const exitBtn = document.getElementById("exitAdminBtn");
-      if (section === "admin") exitBtn.style.display = "inline-block";
-      else exitBtn.style.display = "none";
+      exitBtn.style.display = section === "admin" ? "inline-block" : "none";
       dropdown.style.display = "none";
     }
 
@@ -223,6 +239,7 @@
     }
 
     function adminLogin() {
+      playSound("clickSound");
       const pass = prompt("Enter admin password:");
       if (pass === "09908427T") {
         showSection("admin");
@@ -245,11 +262,7 @@
         const list = document.getElementById("crushList");
         list.innerHTML = "";
         if (!data) return list.innerHTML = "<li>No crushes found.</li>";
-        
-        // Convert data to array with keys to handle deletion
-        const entries = Object.entries(data); // [ [key, {person, crush}], ... ]
-
-        entries.forEach(([key, entry], i) => {
+        Object.entries(data).forEach(([key, entry]) => {
           const li = document.createElement("li");
           li.classList.add("crush-row");
           li.innerHTML = `
@@ -259,64 +272,79 @@
           `;
           list.appendChild(li);
         });
-
-        // Attach delete event listeners with confirmation
         document.querySelectorAll(".delete-btn").forEach(button => {
           button.addEventListener("click", e => {
             const confirmed = confirm("Are you sure you want to delete this crush?");
             if (!confirmed) return;
-
+            playSound("clickSound");
             const key = button.getAttribute("data-key");
-            db.ref("crushPairs/" + key).remove()
-              .then(() => {
-                loadCrushes(); // reload list after delete
-              })
-              .catch(err => {
-                alert("Failed to delete: " + err.message);
-              });
+            db.ref("crushPairs/" + key).remove().then(loadCrushes);
           });
         });
       });
     }
 
-    // Filter crush list instantly by name (person or crush)
     searchInput.addEventListener("input", function() {
       const filter = this.value.toLowerCase();
       const crushRows = document.querySelectorAll(".crush-row");
       crushRows.forEach(row => {
         const person = row.querySelector(".person-name").textContent.toLowerCase();
         const crush = row.querySelector(".crush-name").textContent.toLowerCase();
-        if (person.includes(filter) || crush.includes(filter)) {
-          row.style.display = "";
-        } else {
-          row.style.display = "none";
-        }
+        row.style.display = (person.includes(filter) || crush.includes(filter)) ? "" : "none";
       });
     });
 
     function calculateLove() {
+      playSound("clickSound");
       const n1 = document.getElementById("yourName").value.trim();
       const n2 = document.getElementById("crushName").value.trim();
       const res = document.getElementById("loveResult");
       if (!n1 || !n2) return res.textContent = "Please enter both names!";
       const percent = (n1.length * 3 + n2.length * 5 + n1.charCodeAt(0)) % 101;
       res.textContent = `Love between ${n1} & ${n2}: ${percent}%`;
+      playSound("successSound");
       saveCrush(n1, n2);
+    }
+
+    function resetLove() {
+      playSound("clickSound");
+      document.getElementById("yourName").value = "";
+      document.getElementById("crushName").value = "";
+      document.getElementById("loveResult").textContent = "";
     }
 
     let secret = Math.floor(Math.random() * 100) + 1;
     function checkGuess() {
+      playSound("clickSound");
       const val = parseInt(document.getElementById("guessInput").value);
       const result = document.getElementById("guessResult");
-      if (val === secret) result.textContent = "🎉 Correct!";
-      else if (val < secret) result.textContent = "⬆️ Too low!";
-      else result.textContent = "⬇️ Too high!";
+      if (val === secret) {
+        result.textContent = "🎉 Correct!";
+        playSound("successSound");
+      } else if (val < secret) {
+        result.textContent = "⬆️ Too low!";
+      } else {
+        result.textContent = "⬇️ Too high!";
+      }
+    }
+
+    function resetGuess() {
+      playSound("clickSound");
+      secret = Math.floor(Math.random() * 100) + 1;
+      document.getElementById("guessInput").value = "";
+      document.getElementById("guessResult").textContent = "";
     }
 
     function rollDice() {
+      playSound("clickSound");
       const d1 = Math.floor(Math.random() * 6) + 1;
       const d2 = Math.floor(Math.random() * 6) + 1;
       document.getElementById("diceResult").textContent = `You rolled ${d1} + ${d2} = ${d1 + d2}`;
+    }
+
+    function resetDice() {
+      playSound("clickSound");
+      document.getElementById("diceResult").textContent = "";
     }
 
     const typingText = document.getElementById("typingText").textContent;
@@ -331,8 +359,17 @@
         const time = ((new Date() - start) / 1000).toFixed(2);
         typingResult.textContent = `Done in ${time}s`;
         typingInput.disabled = true;
+        playSound("typingSound");
       }
     });
+
+    function resetTyping() {
+      playSound("clickSound");
+      typingInput.value = "";
+      typingInput.disabled = false;
+      typingResult.textContent = "";
+      start = null;
+    }
   </script>
 </body>
 </html>
