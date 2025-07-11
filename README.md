@@ -127,7 +127,7 @@ Humayun Rashid
   </section>
 
   <div class="footer">
-    Made with ❤️ by Suchock | Helped by Nusrat Jahan Tanisha
+    Made with ❤ by Suchock | Helped by Nusrat Jahan Tanisha
   </div>
 
 </body>
