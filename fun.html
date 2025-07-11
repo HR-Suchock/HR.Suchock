@@ -19,6 +19,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    position: relative;
   }
   h1 {
     font-size: 2.8rem;
@@ -90,7 +91,6 @@
   #result,
   #diceResult,
   #typingResult,
-  #carromMsg,
   #loveResult {
     font-weight: 600;
     font-size: 18px;
@@ -99,17 +99,10 @@
     user-select: none;
     color: #4a148c;
   }
-  canvas {
-    background: #f1f1f1;
-    border: 2px solid #555;
-    border-radius: 10px;
-    display: block;
-    margin: 0 auto;
-    touch-action: none;
-  }
   .admin-section {
     background: #fce4ec;
     padding: 20px 25px;
+    max-width: 420px;
   }
   .admin-section h2 {
     margin-bottom: 15px;
@@ -126,6 +119,58 @@
     margin-bottom: 6px;
     font-weight: 500;
   }
+
+  /* 3-dot menu styles */
+  #menuBtn {
+    position: fixed;
+    top: 15px;
+    right: 15px;
+    width: 32px;
+    height: 32px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    user-select: none;
+    z-index: 1000;
+  }
+  #menuBtn span {
+    display: block;
+    width: 6px;
+    height: 6px;
+    background-color: #333;
+    border-radius: 50%;
+    margin: 4px auto;
+  }
+  #menuDropdown {
+    position: fixed;
+    top: 52px;
+    right: 15px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    display: none;
+    min-width: 140px;
+    z-index: 1000;
+  }
+  #menuDropdown button {
+    width: 100%;
+    background: transparent;
+    color: #333;
+    border: none;
+    padding: 10px 15px;
+    text-align: left;
+    border-radius: 8px 8px 0 0;
+    font-weight: 600;
+  }
+  #menuDropdown button:hover,
+  #menuDropdown button:focus {
+    background-color: #fce4ec;
+    outline: none;
+  }
+  #menuDropdown button:last-child {
+    border-radius: 0 0 8px 8px;
+  }
+
   /* Responsive */
   @media (max-width: 480px) {
     body {
@@ -156,62 +201,116 @@
 </head>
 <body>
 
+  <!-- 3-dot menu -->
+  <button id="menuBtn" aria-label="Menu" aria-haspopup="true" aria-expanded="false" title="Menu">
+    <span></span><span></span><span></span>
+  </button>
+  <div id="menuDropdown" role="menu" aria-hidden="true">
+    <button id="homePageBtn" role="menuitem">🏠 Home Page</button>
+    <button id="adminPanelBtn" role="menuitem">👀 Admin Panel</button>
+  </div>
+
   <h1>🎮 Fun Zone + ❤️ Love Calculator</h1>
 
-  <!-- Number Guessing Game -->
-  <div class="game" id="guessingGame">
-    <h2>Number Guessing Game</h2>
-    <p>Guess a number between 1 and 100</p>
-    <input type="number" id="guessInput" min="1" max="100" placeholder="Enter your guess" />
-    <br />
-    <button id="submitGuessBtn">Submit</button>
-    <button id="resetGuessBtn" style="background-color: #e91e63; margin-left: 10px;">Reset</button>
-    <p id="result"></p>
-  </div>
+  <div id="mainContent">
+    <!-- Number Guessing Game -->
+    <div class="game" id="guessingGame">
+      <h2>Number Guessing Game</h2>
+      <p>Guess a number between 1 and 100</p>
+      <input type="number" id="guessInput" min="1" max="100" placeholder="Enter your guess" />
+      <br />
+      <button id="submitGuessBtn">Submit</button>
+      <button id="resetGuessBtn" style="background-color: #e91e63; margin-left: 10px;">Reset</button>
+      <p id="result"></p>
+    </div>
 
-  <!-- Dice Roller Game -->
-  <div class="game" id="diceGame">
-    <h2>🎲 Dice Roller</h2>
-    <p>Click the button to roll two dice!</p>
-    <button id="rollDiceBtn">Roll Dice</button>
-    <p id="diceResult"></p>
-  </div>
+    <!-- Dice Roller Game -->
+    <div class="game" id="diceGame">
+      <h2>🎲 Dice Roller</h2>
+      <p>Click the button to roll two dice!</p>
+      <button id="rollDiceBtn">Roll Dice</button>
+      <p id="diceResult"></p>
+    </div>
 
-  <!-- Typing Speed Game -->
-  <div class="game" id="typingGame">
-    <h2>⌨️ Typing Speed Test</h2>
-    <p id="typingText">Type this sentence as fast as you can!</p>
-    <input type="text" id="typingInput" placeholder="Start typing..." autocomplete="off" />
-    <br />
-    <button id="resetTypingBtn" style="background-color: #e91e63;">Reset</button>
-    <p id="typingResult"></p>
-  </div>
+    <!-- Typing Speed Game -->
+    <div class="game" id="typingGame">
+      <h2>⌨️ Typing Speed Test</h2>
+      <p id="typingText">Type this sentence as fast as you can!</p>
+      <input type="text" id="typingInput" placeholder="Start typing..." autocomplete="off" />
+      <br />
+      <button id="resetTypingBtn" style="background-color: #e91e63;">Reset</button>
+      <p id="typingResult"></p>
+    </div>
 
-  <!-- Carrom Striker Game -->
-  <div class="game" id="carromGame">
-    <h2>🎯 Carrom Striker Flick</h2>
-    <p>Drag and release the striker to hit the target!</p>
-    <canvas id="carromCanvas" width="300" height="300" tabindex="0" aria-label="Carrom striker game canvas"></canvas>
-    <button id="resetCarromBtn" style="background-color: #e91e63; margin-top: 10px;">Reset Game</button>
-    <p id="carromMsg"></p>
-  </div>
-
-  <!-- Love Percentage Calculator -->
-  <div class="container" id="loveCalc">
-    <h2>❤️ Love Percentage Calculator</h2>
-    <input type="text" id="yourName" placeholder="Your Name" autocomplete="off" />
-    <input type="text" id="crushName" placeholder="Your Crush's Name" autocomplete="off" />
-    <button id="calculateBtn">Calculate Love %</button>
-    <div id="loveResult"></div>
+    <!-- Love Percentage Calculator -->
+    <div class="container" id="loveCalc">
+      <h2>❤️ Love Percentage Calculator</h2>
+      <input type="text" id="yourName" placeholder="Your Name" autocomplete="off" />
+      <input type="text" id="crushName" placeholder="Your Crush's Name" autocomplete="off" />
+      <button id="calculateBtn">Calculate Love %</button>
+      <div id="loveResult"></div>
+    </div>
   </div>
 
   <!-- Admin Panel -->
   <div class="admin-section" id="admin-section" style="display:none;">
-    <h2>👀 Admin Panel - Crush Names Entered</h2>
+    <h2>👀 Admin Panel - Crush Pairs Entered</h2>
     <ul id="crushList"></ul>
   </div>
 
 <script>
+  // 3-dot menu toggle
+  const menuBtn = document.getElementById('menuBtn');
+  const menuDropdown = document.getElementById('menuDropdown');
+  let menuOpen = false;
+
+  function toggleMenu() {
+    menuOpen = !menuOpen;
+    menuDropdown.style.display = menuOpen ? 'block' : 'none';
+    menuBtn.setAttribute('aria-expanded', menuOpen);
+    menuDropdown.setAttribute('aria-hidden', !menuOpen);
+  }
+
+  menuBtn.addEventListener('click', toggleMenu);
+
+  // Close menu if clicking outside
+  document.addEventListener('click', (e) => {
+    if (!menuBtn.contains(e.target) && !menuDropdown.contains(e.target)) {
+      menuOpen = false;
+      menuDropdown.style.display = 'none';
+      menuBtn.setAttribute('aria-expanded', false);
+      menuDropdown.setAttribute('aria-hidden', true);
+    }
+  });
+
+  // Page toggle buttons
+  const homePageBtn = document.getElementById('homePageBtn');
+  const adminPanelBtn = document.getElementById('adminPanelBtn');
+  const mainContent = document.getElementById('mainContent');
+  const adminSection = document.getElementById('admin-section');
+
+  function showHome() {
+    mainContent.style.display = 'block';
+    adminSection.style.display = 'none';
+    toggleMenu();
+  }
+  function showAdmin() {
+    const password = prompt("Enter admin password to view crush pairs:");
+    if (password === "09908427T") {
+      adminSection.style.display = 'block';
+      mainContent.style.display = 'none';
+      displayCrushPairs();
+    } else {
+      alert("❌ Wrong password! Admin panel hidden.");
+      adminSection.style.display = 'none';
+      mainContent.style.display = 'block';
+    }
+    toggleMenu();
+  }
+
+  homePageBtn.addEventListener('click', showHome);
+  adminPanelBtn.addEventListener('click', showAdmin);
+
   // -------- Number Guessing Game --------
   (function () {
     let secretNumber = Math.floor(Math.random() * 100) + 1;
@@ -316,210 +415,32 @@
     resetTyping();
   })();
 
-  // -------- Carrom Striker Flick Game --------
-  (function () {
-    const canvas = document.getElementById("carromCanvas");
-    const ctx = canvas.getContext("2d");
-    const msg = document.getElementById("carromMsg");
-    const resetBtn = document.getElementById("resetCarromBtn");
-
-    const strikerRadius = 15;
-    const targetRadius = 20;
-
-    let striker = { x: canvas.width / 2, y: canvas.height - 40, vx: 0, vy: 0 };
-    const target = { x: canvas.width / 2, y: 50 };
-
-    let isDragging = false;
-    let dragStart = null;
-    let animationFrameId = null;
-
-    function drawBoard() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      // Draw target circle
-      ctx.beginPath();
-      ctx.fillStyle = "#e91e63";
-      ctx.arc(target.x, target.y, targetRadius, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.closePath();
-
-      // Draw striker
-      ctx.beginPath();
-      ctx.fillStyle = "#4caf50";
-      ctx.arc(striker.x, striker.y, strikerRadius, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.closePath();
-
-      if (isDragging && dragStart) {
-        ctx.beginPath();
-        ctx.strokeStyle = "#388e3c";
-        ctx.lineWidth = 3;
-        ctx.moveTo(striker.x, striker.y);
-        ctx.lineTo(dragStart.x, dragStart.y);
-        ctx.stroke();
-        ctx.closePath();
-      }
-    }
-
-    function distance(p1, p2) {
-      return Math.sqrt((p1.x - p2.x) ** 2 + (p1.y - p2.y) ** 2);
-    }
-
-    function animate() {
-      striker.x += striker.vx;
-      striker.y += striker.vy;
-
-      striker.vx *= 0.95;
-      striker.vy *= 0.95;
-
-      if (Math.abs(striker.vx) < 0.1) striker.vx = 0;
-      if (Math.abs(striker.vy) < 0.1) striker.vy = 0;
-
-      if (striker.x - strikerRadius < 0) {
-        striker.x = strikerRadius;
-        striker.vx = -striker.vx * 0.7;
-      }
-      if (striker.x + strikerRadius > canvas.width) {
-        striker.x = canvas.width - strikerRadius;
-        striker.vx = -striker.vx * 0.7;
-      }
-      if (striker.y - strikerRadius < 0) {
-        striker.y = strikerRadius;
-        striker.vy = -striker.vy * 0.7;
-      }
-      if (striker.y + strikerRadius > canvas.height) {
-        striker.y = canvas.height - strikerRadius;
-        striker.vy = -striker.vy * 0.7;
-      }
-
-      if (distance(striker, target) <= strikerRadius + targetRadius) {
-        msg.textContent = "🏆 You hit the target! 🎉";
-        striker.vx = 0;
-        striker.vy = 0;
-        cancelAnimationFrame(animationFrameId);
-        animationFrameId = null;
-        return;
-      }
-
-      drawBoard();
-
-      if (striker.vx !== 0 || striker.vy !== 0) {
-        animationFrameId = requestAnimationFrame(animate);
-      } else {
-        animationFrameId = null;
-      }
-    }
-
-    function getPointerPos(evt) {
-      const rect = canvas.getBoundingClientRect();
-      let clientX, clientY;
-      if (evt.touches) {
-        clientX = evt.touches[0].clientX;
-        clientY = evt.touches[0].clientY;
-      } else {
-        clientX = evt.clientX;
-        clientY = evt.clientY;
-      }
-      return {
-        x: clientX - rect.left,
-        y: clientY - rect.top,
-      };
-    }
-
-    canvas.addEventListener("mousedown", (e) => {
-      const pos = getPointerPos(e);
-      if (distance(pos, striker) <= strikerRadius) {
-        isDragging = true;
-        dragStart = pos;
-        msg.textContent = "Drag and release to shoot!";
-      }
-    });
-    canvas.addEventListener("touchstart", (e) => {
-      const pos = getPointerPos(e);
-      if (distance(pos, striker) <= strikerRadius) {
-        isDragging = true;
-        dragStart = pos;
-        msg.textContent = "Drag and release to shoot!";
-        e.preventDefault();
-      }
-    }, { passive: false });
-
-    canvas.addEventListener("mousemove", (e) => {
-      if (!isDragging) return;
-      dragStart = getPointerPos(e);
-      drawBoard();
-    });
-    canvas.addEventListener("touchmove", (e) => {
-      if (!isDragging) return;
-      dragStart = getPointerPos(e);
-      drawBoard();
-      e.preventDefault();
-    }, { passive: false });
-
-    canvas.addEventListener("mouseup", (e) => {
-      if (!isDragging) return;
-      isDragging = false;
-      const releasePos = getPointerPos(e);
-      let vx = (striker.x - releasePos.x) / 10;
-      let vy = (striker.y - releasePos.y) / 10;
-      striker.vx = vx;
-      striker.vy = vy;
-      msg.textContent = "";
-      if (!animationFrameId) animate();
-    });
-    canvas.addEventListener("touchend", (e) => {
-      if (!isDragging) return;
-      isDragging = false;
-      const releasePos = dragStart;
-      let vx = (striker.x - releasePos.x) / 10;
-      let vy = (striker.y - releasePos.y) / 10;
-      striker.vx = vx;
-      striker.vy = vy;
-      msg.textContent = "";
-      if (!animationFrameId) animate();
-      e.preventDefault();
-    });
-
-    const resetCarromBtn = document.getElementById("resetCarromBtn");
-    function resetCarrom() {
-      striker = { x: canvas.width / 2, y: canvas.height - 40, vx: 0, vy: 0 };
-      msg.textContent = "";
-      if (animationFrameId) {
-        cancelAnimationFrame(animationFrameId);
-        animationFrameId = null;
-      }
-      drawBoard();
-    }
-    resetCarromBtn.addEventListener("click", resetCarrom);
-    resetCarrom();
-
   // -------- Love Percentage Calculator + Admin --------
   const calculateBtn = document.getElementById('calculateBtn');
   const loveResult = document.getElementById('loveResult');
   const yourNameInput = document.getElementById('yourName');
   const crushNameInput = document.getElementById('crushName');
   const crushListUl = document.getElementById('crushList');
-  const adminSection = document.getElementById('admin-section');
 
-  // LocalStorage crush names list load/save
-  function loadCrushNames() {
-    const saved = localStorage.getItem('crushNames');
+  // LocalStorage crush pairs list load/save
+  function loadCrushPairs() {
+    const saved = localStorage.getItem('crushPairs');
     if (saved) return JSON.parse(saved);
     return [];
   }
-  function saveCrushNames(list) {
-    localStorage.setItem('crushNames', JSON.stringify(list));
+  function saveCrushPairs(list) {
+    localStorage.setItem('crushPairs', JSON.stringify(list));
   }
-  // Show crush names list in admin panel
-  function displayCrushNames() {
-    const list = loadCrushNames();
+  // Show crush pairs list in admin panel
+  function displayCrushPairs() {
+    const list = loadCrushPairs();
     crushListUl.innerHTML = '';
     if (list.length === 0) {
-      crushListUl.innerHTML = '<li>No crush names entered yet.</li>';
+      crushListUl.innerHTML = '<li>No crush pairs entered yet.</li>';
       return;
     }
-    list.forEach((name, i) => {
-      crushListUl.innerHTML += `<li>${i + 1}. ${name}</li>`;
+    list.forEach((pair, i) => {
+      crushListUl.innerHTML += `<li>${i + 1}. ${pair.person} ❤️ ${pair.crush}</li>`;
     });
   }
 
@@ -547,29 +468,18 @@
     loveResult.textContent = `❤️ Love Percentage between ${yourName} & ${crushName} is ${lovePercent}%`;
     loveResult.style.color = '#880e4f';
 
-    let crushList = loadCrushNames();
-    if (!crushList.includes(crushName)) {
-      crushList.push(crushName);
-      saveCrushNames(crushList);
-      displayCrushNames();
+    let crushPairs = loadCrushPairs();
+    // Check if this pair already saved (case-insensitive)
+    const exists = crushPairs.some(
+      p => p.person.toLowerCase() === yourName.toLowerCase() &&
+           p.crush.toLowerCase() === crushName.toLowerCase()
+    );
+    if (!exists) {
+      crushPairs.push({ person: yourName, crush: crushName });
+      saveCrushPairs(crushPairs);
+      displayCrushPairs();
     }
   });
-
-  // Password-protect admin panel
-  function askAdminPassword() {
-    const password = prompt("Enter admin password to view crush names:");
-    if (password === "09908427T") {
-      adminSection.style.display = "block";
-      displayCrushNames();
-    } else {
-      alert("❌ Wrong password! Admin panel hidden.");
-      adminSection.style.display = "none";
-    }
-  }
-
-  window.onload = () => {
-    askAdminPassword();
-  };
 </script>
 </body>
 </html>
