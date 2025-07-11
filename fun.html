@@ -87,17 +87,58 @@
       max-height: 150px;
       overflow-y: auto;
       margin-top: 10px;
+      padding-left: 20px;
     }
     li {
       margin: 5px 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .back-home {
+      position: fixed;
+      top: 10px;
+      left: 20px;
+      background: white;
+      padding: 8px 14px;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+      font-size: 16px;
+      font-weight: bold;
+      color: #2c3e50;
+      text-decoration: none;
+      z-index: 1000;
+    }
+    #exitAdminBtn {
+      display: none;
+      margin-top: 10px;
+      background-color: #f44336;
+    }
+    #searchInput {
+      padding: 8px;
+      width: 90%;
+      margin-bottom: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+    .delete-btn {
+      background: #f44336;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      padding: 4px 8px;
+      margin-left: 10px;
+      flex-shrink: 0;
     }
   </style>
 </head>
 <body>
 
+  <a class="back-home" href="index.html">🏠 Home</a>
+
   <div class="menu" id="menuBtn">⋮</div>
   <div class="dropdown" id="menuDropdown">
-    <button onclick="showSection('main')">🏠 Home</button>
     <button onclick="adminLogin()">🔐 Admin Panel</button>
   </div>
 
@@ -135,7 +176,9 @@
 
   <div id="adminPanel" class="section">
     <h2>📋 Crush List</h2>
+    <input type="text" id="searchInput" placeholder="Search crush by name..." />
     <ul id="crushList"></ul>
+    <button id="exitAdminBtn" onclick="exitAdmin()">↩️ Exit Admin Panel</button>
   </div>
 
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
@@ -168,7 +211,15 @@
     function showSection(section) {
       document.getElementById("mainSection").style.display = section === "main" ? "block" : "none";
       document.getElementById("adminPanel").style.display = section === "admin" ? "block" : "none";
+      const exitBtn = document.getElementById("exitAdminBtn");
+      if (section === "admin") exitBtn.style.display = "inline-block";
+      else exitBtn.style.display = "none";
       dropdown.style.display = "none";
+    }
+
+    function exitAdmin() {
+      showSection("main");
+      document.getElementById("searchInput").value = "";
     }
 
     function adminLogin() {
@@ -186,17 +237,62 @@
       db.ref("crushPairs/" + id).set({ person: name1, crush: name2 });
     }
 
+    const searchInput = document.getElementById('searchInput');
+
     function loadCrushes() {
       db.ref("crushPairs").once("value").then(snapshot => {
         const data = snapshot.val();
         const list = document.getElementById("crushList");
         list.innerHTML = "";
         if (!data) return list.innerHTML = "<li>No crushes found.</li>";
-        Object.values(data).forEach((entry, i) => {
-          list.innerHTML += `<li>${i + 1}. ${entry.person} ❤️ ${entry.crush}</li>`;
+        
+        // Convert data to array with keys to handle deletion
+        const entries = Object.entries(data); // [ [key, {person, crush}], ... ]
+
+        entries.forEach(([key, entry], i) => {
+          const li = document.createElement("li");
+          li.classList.add("crush-row");
+          li.innerHTML = `
+            <span class="person-name">${entry.person}</span> ❤️
+            <span class="crush-name">${entry.crush}</span>
+            <button class="delete-btn" data-key="${key}">Delete</button>
+          `;
+          list.appendChild(li);
+        });
+
+        // Attach delete event listeners with confirmation
+        document.querySelectorAll(".delete-btn").forEach(button => {
+          button.addEventListener("click", e => {
+            const confirmed = confirm("Are you sure you want to delete this crush?");
+            if (!confirmed) return;
+
+            const key = button.getAttribute("data-key");
+            db.ref("crushPairs/" + key).remove()
+              .then(() => {
+                loadCrushes(); // reload list after delete
+              })
+              .catch(err => {
+                alert("Failed to delete: " + err.message);
+              });
+          });
         });
       });
     }
+
+    // Filter crush list instantly by name (person or crush)
+    searchInput.addEventListener("input", function() {
+      const filter = this.value.toLowerCase();
+      const crushRows = document.querySelectorAll(".crush-row");
+      crushRows.forEach(row => {
+        const person = row.querySelector(".person-name").textContent.toLowerCase();
+        const crush = row.querySelector(".crush-name").textContent.toLowerCase();
+        if (person.includes(filter) || crush.includes(filter)) {
+          row.style.display = "";
+        } else {
+          row.style.display = "none";
+        }
+      });
+    });
 
     function calculateLove() {
       const n1 = document.getElementById("yourName").value.trim();
